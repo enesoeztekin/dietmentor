@@ -1,5 +1,6 @@
 <?php
 
+
 global $CFG;
 echo $CFG->dirroot;
 require('../../config.php');
