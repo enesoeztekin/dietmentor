@@ -1,6 +1,7 @@
 <?php
 
 require_once('../../config.php');
+require_once('forms/userinfo_form.php');
 global $CFG, $PAGE, $OUTPUT;
 echo $CFG->dirroot;
 
