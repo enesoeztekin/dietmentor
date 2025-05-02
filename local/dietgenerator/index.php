@@ -1,7 +1,7 @@
 <?php
 
 
-global $CFG;
+global $CFG, $PAGE, $OUTPUT;
 echo $CFG->dirroot;
 require('../../config.php');
 require_once($CFG->dirroot . '/local/dietgenerator/forms/userinfo_form.php');
