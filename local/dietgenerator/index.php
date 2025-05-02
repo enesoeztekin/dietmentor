@@ -1,5 +1,6 @@
 <?php
 
+require_once('/../../config.php');
 global $CFG, $PAGE, $OUTPUT;
 echo $CFG->dirroot;
 
