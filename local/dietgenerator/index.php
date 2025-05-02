@@ -35,7 +35,7 @@ if ($form->is_cancelled()) {
     $response = $client->generate($prompt);
 
     // Şimdilik cevabı ekrana yazdırıyoruz
-    echo html_writer::div('<strong>OpenAI Yanıtı:</strong><br>' . nl2br($response), 'box generalbox');
+    echo html_writer::div('<strong>Diyet Programınız:</strong><br>' . nl2br($response), 'box generalbox');
 
     // Burada kurs oluşturma kısmını ileride ekleyeceğiz
     // DietCourseBuilder ile alınan yanıtı kursa aktarabilirsiniz
