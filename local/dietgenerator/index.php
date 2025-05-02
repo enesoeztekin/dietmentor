@@ -1,12 +1,8 @@
 <?php
 
-
 global $CFG, $PAGE, $OUTPUT;
 echo $CFG->dirroot;
-require('../../config.php');
-require_once($CFG->dirroot . '/local/dietgenerator/forms/userinfo_form.php');
-require_once($CFG->dirroot . '/local/dietgenerator/classes/api/OpenAIClient.php');
-require_once($CFG->dirroot . '/local/dietgenerator/classes/logic/DietCourseBuilder.php');
+
 
 require_login();
 
