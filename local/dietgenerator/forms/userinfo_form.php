@@ -1,5 +1,6 @@
 <?php
 
+global $CFG;
 require_once("$CFG->libdir/formslib.php");
 
 class userinfo_form extends moodleform {
