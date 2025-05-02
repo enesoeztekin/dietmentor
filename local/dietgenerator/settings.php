@@ -8,11 +8,11 @@ if ($hassiteconfig) {
 
     // Ayarları buraya ekleyin, örneğin:
     $settings->add(new admin_setting_configtext(
-        'local_dietgenerator/weight',
-        'Kilo Ayarı',
-        'Kullanıcıların kilolarını girip diyet alabilmesi için gerekli ayar.',
+        'local_dietgenerator/openai_apikey',
+        'OpenAI API Key',
+        'Open AI anahtarını girin.',
         '',
-        PARAM_INT
+        PARAM_TEXT
     ));
 
     // Settings sayfasını admin menüsüne ekle
