@@ -1,5 +1,6 @@
 <?php
 
+global $CFG;
 require('../../config.php');
 require_once('forms/userinfo_form.php');
 require_once($CFG->dirroot . '/local/dietgenerator/classes/api/OpenAIClient.php');
