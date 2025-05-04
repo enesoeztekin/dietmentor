@@ -81,9 +81,9 @@ class DietCourseBuilder {
                 $fromform->modulename = 'label';
                 $fromform->instance = 0;
                 $fromform->visible = 1;
-                $fromform->name = $title;
-                $fromform->intro = '';
+                $fromform->intro = "test <strong>{$title}:</strong> {$mealText}";
                 $fromform->introformat = FORMAT_HTML;
+                $fromform->name = $title;
                 $fromform->showdescription = 0;
 
                 add_moduleinfo($fromform, $course, $modinfo);
