@@ -66,6 +66,8 @@ class DietCourseBuilder {
              //  $DB->set_field('course_modules', 'completion', COMPLETION_TRACKING_MANUAL, ['id' => $moduleid]);
             //}
         }
+
+        echo $sections;
     }
 
     private static function add_label_to_section(int $courseid, int $sectionnum, string $text): int {
