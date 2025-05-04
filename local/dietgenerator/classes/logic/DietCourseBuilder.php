@@ -20,32 +20,33 @@ class DietCourseBuilder {
         $course = new stdClass();
         $course->fullname = "Kişisel Diyet Programın ({$user->firstname})";
         $course->shortname = 'diyet_' . time();
-        $course->category = 3;
+        $course->category = 3; // Mevcut bir kategori ID olduğundan emin olun
         $course->format = 'topics';
         $course->numsections = 7;
         $course->visible = 1;
         $course->summary = 'Bu kurs, sana özel hazırlanmış 7 günlük bir diyet planını içerir.';
 
-        // 2. Kursu oluştur
-        $createdcourse = create_course($course); // stdClass döner
+        // 2. Kurs oluştur (stdClass döner)
+        $createdcourse = create_course($course);
         $courseid = $createdcourse->id;
 
         // 3. Kullanıcıyı öğrenci olarak kaydet
         self::enrol_user_as_student($user->id, $courseid);
 
-        // 4. İçerik oluştur
-        self::create_sections_and_content($createdcourse, $dietResponse);
+        // 4. İçeriği oluştur
+        self::create_sections_and_content($courseid, $dietResponse);
 
         return $courseid;
     }
 
     private static function enrol_user_as_student(int $userid, int $courseid): void {
         global $DB;
+
         $studentRole = $DB->get_record('role', ['shortname' => 'student'], '*', MUST_EXIST);
         enrol_try_internal_enrol($courseid, $userid, $studentRole->id);
     }
 
-    private static function create_sections_and_content(stdClass $course, string $dietResponse): void {
+    private static function create_sections_and_content(int $courseid, string $dietResponse): void {
         global $DB;
 
         $sections = explode("\n\n", trim($dietResponse));
@@ -54,24 +55,26 @@ class DietCourseBuilder {
             $sectionnum = $index + 1;
             $sectionname = "{$sectionnum}. Gün";
 
-            // Section oluştur
-            $sectionid = course_create_section($course->id, $sectionnum)->id;
+            // Section oluştur ve ismini ayarla
+            $sectionid = course_create_section($courseid, $sectionnum)->id;
             $DB->set_field('course_sections', 'name', $sectionname, ['id' => $sectionid]);
 
             // Öğünleri ayır
-            $meals = preg_split('/\n(?=Sabah|Öğle|Akşam)/', $daytext);
+            //$meals = preg_split('/\n(?=Sabah|Öğle|Akşam)/', $daytext);
 
-            foreach ($meals as $mealtext) {
-                $moduleid = self::add_label_to_section($course, $sectionnum, trim($mealtext));
-                $DB->set_field('course_modules', 'completion', COMPLETION_TRACKING_MANUAL, ['id' => $moduleid]);
-            }
+            //foreach ($meals as $mealtext) {
+             //   $moduleid = self::add_label_to_section($courseid, $sectionnum, trim($mealtext));
+             //  $DB->set_field('course_modules', 'completion', COMPLETION_TRACKING_MANUAL, ['id' => $moduleid]);
+            //}
         }
     }
 
-    private static function add_label_to_section(stdClass $course, int $sectionnum, string $text): int {
+    private static function add_label_to_section(int $courseid, int $sectionnum, string $text): int {
+        global $DB;
+
         $moduleinfo = new stdClass();
         $moduleinfo->modulename = 'label';
-        $moduleinfo->course = $course->id;
+        $moduleinfo->course = $courseid;
         $moduleinfo->section = $sectionnum;
         $moduleinfo->name = '';
         $moduleinfo->intro = format_text($text, FORMAT_HTML);
@@ -79,8 +82,7 @@ class DietCourseBuilder {
         $moduleinfo->visible = 1;
         $moduleinfo->completion = COMPLETION_TRACKING_MANUAL;
 
-        // Global namespace'teki fonksiyonu çağırıyoruz
-        $labelmodule = \add_moduleinfo($moduleinfo, $course);
+        $labelmodule = add_moduleinfo($moduleinfo, null);
 
         return $labelmodule->coursemodule;
     }
