@@ -8,8 +8,7 @@ defined('MOODLE_INTERNAL') || die();
 use stdClass;
 use context_course;
 
-global $CFG;
-require_once($CFG->dirroot . '/course/lib.php'); // <== GEREKLİ SATIR
+require_once('../../course/lib.php');
 
 class DietCourseBuilder {
 
