@@ -67,7 +67,7 @@ class DietCourseBuilder {
             //}
         }
 
-        echo $sections;
+        print_r($sections);
     }
 
     private static function add_label_to_section(int $courseid, int $sectionnum, string $text): int {
