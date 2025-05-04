@@ -33,7 +33,7 @@ class DietCourseBuilder {
         self::enrol_user_as_student($user->id, $courseid);
 
         // 4. İçeriği oluştur
-        self::create_sections_and_content($courseid, $dietResponse);
+        self::create_sections_and_content($createdcourse, $dietResponse);
 
         return $courseid;
     }
@@ -45,7 +45,7 @@ class DietCourseBuilder {
         enrol_try_internal_enrol($courseid, $userid, $studentRole->id);
     }
 
-    private static function create_sections_and_content(int $courseid, string $dietResponse): void {
+    private static function create_sections_and_content(stdClass course, string $dietResponse): void {
         global $DB;
 
         $sections = explode("\n\n", trim($dietResponse));
@@ -55,25 +55,25 @@ class DietCourseBuilder {
             $sectionname = "{$sectionnum}. Gün";
 
             // Section oluştur ve ismini ayarla
-            $sectionid = course_create_section($courseid, $sectionnum)->id;
+            $sectionid = course_create_section(course, $sectionnum)->id;
             $DB->set_field('course_sections', 'name', $sectionname, ['id' => $sectionid]);
 
             // Öğünleri ayır
             $meals = preg_split('/\n(?=Sabah|Öğle|Akşam)/', $daytext);
 
             foreach ($meals as $mealtext) {
-                $moduleid = self::add_label_to_section($courseid, $sectionnum, trim($mealtext));
+                $moduleid = self::add_label_to_section(course, $sectionnum, trim($mealtext));
                 $DB->set_field('course_modules', 'completion', COMPLETION_TRACKING_MANUAL, ['id' => $moduleid]);
             }
         }
     }
 
-    private static function add_label_to_section(int $courseid, int $sectionnum, string $text): int {
+    private static function add_label_to_section(stdClass course, int $sectionnum, string $text): int {
         global $DB;
 
         $moduleinfo = new stdClass();
         $moduleinfo->modulename = 'label';
-        $moduleinfo->course = $courseid;
+        $moduleinfo->course = course;
         $moduleinfo->section = $sectionnum;
         $moduleinfo->name = '';
         $moduleinfo->intro = format_text($text, FORMAT_HTML);
@@ -81,7 +81,7 @@ class DietCourseBuilder {
         $moduleinfo->visible = 1;
         $moduleinfo->completion = COMPLETION_TRACKING_MANUAL;
 
-        $labelmodule = add_moduleinfo($moduleinfo, null);
+        $labelmodule = add_moduleinfo($moduleinfo, course);
 
         return $labelmodule->coursemodule;
     }
