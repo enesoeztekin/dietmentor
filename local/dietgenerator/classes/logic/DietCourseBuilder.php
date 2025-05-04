@@ -67,7 +67,22 @@ class DietCourseBuilder {
             //}
         }
 
-        print_r($sections);
+        $meals = [];
+
+        foreach ($sections as $index => $dayText) {
+            // Sabah, Öğle, Akşam ayrı ayrı çıkar
+            preg_match('/Sabah:\s*(.*?)\s*Öğle:/', $dayText, $matchMorning);
+            preg_match('/Öğle:\s*(.*?)\s*Akşam:/', $dayText, $matchLunch);
+            preg_match('/Akşam:\s*(.*)/', $dayText, $matchDinner);
+
+            $meals = [
+                'Sabah Kahvaltısı' => $matchMorning[1] ?? '',
+                'Öğle Yemeği' => $matchLunch[1] ?? '',
+                'Akşam Yemeği' => $matchDinner[1] ?? ''
+            ];
+        }
+
+        print_r($meals);
     }
 
     private static function add_label_to_section(int $courseid, int $sectionnum, string $text): int {
