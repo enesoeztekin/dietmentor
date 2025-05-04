@@ -10,6 +10,7 @@ use context_course;
 
 global $CFG;
 require_once($CFG->dirroot . '/course/lib.php');
+require_once($CFG->dirroot . '/course/modlib.php');
 
 class DietCourseBuilder {
 
@@ -48,6 +49,9 @@ class DietCourseBuilder {
     private static function create_sections_and_content(int $courseid, string $dietResponse): void {
         global $DB;
 
+        $course = get_course($courseid);
+        $modinfo = get_fast_modinfo($course);
+
         $sections = explode("\n\n", trim($dietResponse));
 
         foreach ($sections as $index => $daytext) {
@@ -58,32 +62,37 @@ class DietCourseBuilder {
             $sectionid = course_create_section($courseid, $sectionnum)->id;
             $DB->set_field('course_sections', 'name', $sectionname, ['id' => $sectionid]);
 
-            // Öğünleri ayır
-            //$meals = preg_split('/\n(?=Sabah|Öğle|Akşam)/', $daytext);
-
-            //foreach ($meals as $mealtext) {
-             //   $moduleid = self::add_label_to_section($courseid, $sectionnum, trim($mealtext));
-             //  $DB->set_field('course_modules', 'completion', COMPLETION_TRACKING_MANUAL, ['id' => $moduleid]);
-            //}
-        }
-
-        $meals = [];
-
-        foreach ($sections as $index => $dayText) {
-            // Sabah, Öğle, Akşam ayrı ayrı çıkar
-            preg_match('/Sabah:\s*(.*?)\s*Öğle:/', $dayText, $matchMorning);
-            preg_match('/Öğle:\s*(.*?)\s*Akşam:/', $dayText, $matchLunch);
-            preg_match('/Akşam:\s*(.*)/', $dayText, $matchDinner);
+            // Öğünleri ayıkla
+            preg_match('/Sabah:\s*(.*?)\s*Öğle:/s', $daytext, $matchMorning);
+            preg_match('/Öğle:\s*(.*?)\s*Akşam:/s', $daytext, $matchLunch);
+            preg_match('/Akşam:\s*(.*)/s', $daytext, $matchDinner);
 
             $meals = [
                 'Sabah Kahvaltısı' => $matchMorning[1] ?? '',
                 'Öğle Yemeği' => $matchLunch[1] ?? '',
                 'Akşam Yemeği' => $matchDinner[1] ?? ''
             ];
-        }
 
-        print_r($meals);
+            foreach ($meals as $title => $mealText) {
+                $fromform = new stdClass();
+                $fromform->course = $courseid;
+                $fromform->section = $sectionnum;
+                $fromform->module = $DB->get_field('modules', 'id', ['name' => 'label']);
+                $fromform->modulename = 'label';
+                $fromform->instance = 0;
+                $fromform->visible = 1;
+                $fromform->labeltext = "<strong>{$title}:</strong> {$mealText}";
+                $fromform->labeltextformat = FORMAT_HTML;
+                $fromform->name = $title;
+                $fromform->intro = '';
+                $fromform->introformat = FORMAT_HTML;
+                $fromform->showdescription = 0;
+
+                add_moduleinfo($fromform, $course, $modinfo);
+            }
+        }
     }
+
 
     private static function add_label_to_section(int $courseid, int $sectionnum, string $text): int {
         global $DB;
