@@ -23,7 +23,7 @@ class DietCourseBuilder {
         $course->shortname = 'diyet_' . time();
         $course->category = 3; // Mevcut bir kategori ID olduğundan emin olun
         $course->format = 'topics';
-        $course->visible = 1;
+        $course->visible = 0;
         $course->summary = 'Bu kurs, sana özel hazırlanmış 7 günlük bir diyet planını içerir.';
 
         // 2. Kurs oluştur (stdClass döner)
