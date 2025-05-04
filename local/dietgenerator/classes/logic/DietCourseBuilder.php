@@ -8,6 +8,9 @@ defined('MOODLE_INTERNAL') || die();
 use stdClass;
 use context_course;
 
+global $CFG;
+require_once($CFG->dirroot . '/course/lib.php'); // <== GEREKLİ SATIR
+
 class DietCourseBuilder {
 
     public static function create_personal_diet_course(stdClass $user, string $dietResponse): int {
