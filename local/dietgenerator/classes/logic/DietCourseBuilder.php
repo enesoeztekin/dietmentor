@@ -81,32 +81,14 @@ class DietCourseBuilder {
                 $fromform->modulename = 'label';
                 $fromform->instance = 0;
                 $fromform->visible = 1;
-                $fromform->intro = "test <strong>{$title}:</strong> {$mealText}";
+                $fromform->intro = "<strong>{$title}:</strong> {$mealText}";
                 $fromform->introformat = FORMAT_HTML;
                 $fromform->name = $title;
                 $fromform->showdescription = 0;
+                $fromform->completion = COMPLETION_TRACKING_MANUAL;
 
                 add_moduleinfo($fromform, $course, $modinfo);
             }
         }
-    }
-
-
-    private static function add_label_to_section(int $courseid, int $sectionnum, string $text): int {
-        global $DB;
-
-        $moduleinfo = new stdClass();
-        $moduleinfo->modulename = 'label';
-        $moduleinfo->course = $courseid;
-        $moduleinfo->section = $sectionnum;
-        $moduleinfo->name = '';
-        $moduleinfo->intro = format_text($text, FORMAT_HTML);
-        $moduleinfo->introformat = FORMAT_HTML;
-        $moduleinfo->visible = 1;
-        $moduleinfo->completion = COMPLETION_TRACKING_MANUAL;
-
-        $labelmodule = add_moduleinfo($moduleinfo, null);
-
-        return $labelmodule->coursemodule;
     }
 }
