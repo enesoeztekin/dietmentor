@@ -22,7 +22,7 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     $client = new \local_dietgenerator\api\OpenAIClient();
 
-    $prompt = "Kullanıcının yaşı: {$data->age}, cinsiyeti: {$data->gender}, boyu: {$data->height} cm, kilosu: {$data->weight} kg. Bu bilgilere göre 7 günlük bir diyet listesi hazırla. Her gün için sabah kahvaltısı, öğle ve akşam yemeği olacak şekilde belirt. Format:\n\nGün 1:\nSabah: ...\nÖğle: ...\nAkşam: ...\n\nGün 2:\n... (böyle devam et)";
+    $prompt = "Kullanıcının yaşı: {$data->age}, cinsiyeti: {$data->gender}, boyu: {$data->height} cm, kilosu: {$data->weight} kg. Bu bilgilere sahip bir bireyin günlük makro ihtiyacına göre 7 günlük detaylı bir diyet listesi hazırla. Her gün için sabah kahvaltısı, öğle ve akşam yemeği olacak şekilde belirt. Her besinin gramajını veya adetini belirt. Format:\n\nGün 1:\nSabah: ...\nÖğle: ...\nAkşam: ...\n\nGün 2:\n... (böyle devam et)";
 
     $response = $client->generate($prompt);
 
