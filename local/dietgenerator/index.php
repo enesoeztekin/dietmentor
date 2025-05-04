@@ -29,13 +29,13 @@ if ($form->is_cancelled()) {
     if (!$response) {
         echo $OUTPUT->notification('OpenAI yanıtı alınamadı.', 'error');
     } else {
-        echo html_writer::div('<strong>OpenAI Yanıtı alındı, kurs oluşturuluyor...</strong>', 'box boxaligncenter');
+        echo html_writer::div('Merhaba <strong>'.$USER->firstname.',</strong> girmiş olduğun kişisel bilgilere göre 7 günlük kişisel beslenme programın <strong>yapay zeka</strong> tarafından oluşturuldu. Sağlıklı günler! <br>', 'box boxaligncenter');
 
         $builder = new \local_dietgenerator\logic\DietCourseBuilder();
         try {
             $courseid = $builder->create_personal_diet_course($USER, $response);
             $courselink = new moodle_url('/course/view.php', ['id' => $courseid]);
-            echo $OUTPUT->notification('Kurs başarıyla oluşturuldu! <br><a href="' . $courselink . '">Kursu Görüntüle</a>', 'notifysuccess');
+            echo $OUTPUT->notification('Kişisel programına ulaşmak için aşağıdaki bağlantıyı kullanabilirsin: <br><a href="' . $courselink . '">Programı Görüntüle</a>', 'notifysuccess');
         } catch (Exception $e) {
             echo $OUTPUT->notification('Kurs oluşturulurken hata oluştu: ' . $e->getMessage(), 'error');
         }
