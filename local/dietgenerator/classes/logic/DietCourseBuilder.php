@@ -19,7 +19,7 @@ class DietCourseBuilder {
         $course = new stdClass();
         $course->fullname = "Kişisel Diyet Programın ({$user->firstname})";
         $course->shortname = 'diyet_' . time();
-        $course->category = 1; // Varsayılan kategori ID'si, gerektiğinde değiştir
+        $course->category = 3; // Varsayılan kategori ID'si, gerektiğinde değiştir
         $course->format = 'topics';
         $course->numsections = 7;
         $course->visible = 1;
