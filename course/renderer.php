@@ -1708,7 +1708,7 @@ class core_course_renderer extends plugin_renderer_base {
                     $mycourseshtml = $this->frontpage_my_courses();
                     if (!empty($mycourseshtml)) {
                         $output .= $this->frontpage_part('skipmycourses', 'frontpage-course-list',
-                            get_string('mycourses'), $mycourseshtml);
+                            "Ücretsiz Programlarımız", $mycourseshtml);
                     }
                     break;
 
