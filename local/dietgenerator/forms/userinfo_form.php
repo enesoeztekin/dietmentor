@@ -25,46 +25,32 @@ class userinfo_form extends moodleform {
         $mform->addElement('select', 'gender', 'Cinsiyet', $genderoptions);
         $mform->addRule('gender', 'Gerekli', 'required');
 
-        // Protein kaynakları (checkbox grup)
-        $proteinOptions = [
-            'Tavuk' => 'Tavuk',
-            'Hindi' => 'Hindi',
-            'Yumurta' => 'Yumurta',
-            'Yoğurt' => 'Yoğurt',
-            'Peynir' => 'Peynir',
-            'Balık' => 'Balık',
-            'Kırmızı Et' => 'Kırmızı Et',
-            'Baklagiller' => 'Baklagiller'
-        ];
-        $mform->addElement('checkboxgroup', 'protein_sources', 'Protein Kaynakları', $proteinOptions);
-        $mform->addRule('protein_sources', 'En az bir protein kaynağı seçiniz.', 'required', null, 'client');
+        // === Protein Kaynakları ===
+        $proteinoptions = ['tavuk' => 'Tavuk', 'balik' => 'Balık', 'yumurta' => 'Yumurta', 'kirmizi_et' => 'Kırmızı Et', 'peynir' => 'Peynir'];
+        $proteincheckboxes = [];
+        foreach ($proteinoptions as $key => $label) {
+            $proteincheckboxes[] = $mform->createElement('advcheckbox', $key, '', $label, null, ['value' => $label]);
+        }
+        $mform->addGroup($proteincheckboxes, 'protein_sources', 'Protein Kaynakları', '<br>', false);
+        $mform->addRule('protein_sources', 'En az bir protein kaynağı seçmelisiniz.', 'required', null, 'client');
 
-        // Karbonhidrat kaynakları
-        $carbOptions = [
-            'Pirinç' => 'Pirinç',
-            'Yulaf' => 'Yulaf',
-            'Makarna' => 'Makarna',
-            'Tam Buğday Ekmeği' => 'Tam Buğday Ekmeği',
-            'Sebzeler' => 'Sebzeler',
-            'Meyveler' => 'Meyveler',
-            'Patates' => 'Patates',
-            'Baklagiller' => 'Baklagiller'
-        ];
-        $mform->addElement('checkboxgroup', 'carb_sources', 'Karbonhidrat Kaynakları', $carbOptions);
-        $mform->addRule('carb_sources', 'En az bir karbonhidrat kaynağı seçiniz.', 'required', null, 'client');
+// === Karbonhidrat Kaynakları ===
+        $carboptions = ['pirinc' => 'Pirinç', 'bulgur' => 'Bulgur', 'patates' => 'Patates', 'yulaf' => 'Yulaf', 'makarna' => 'Makarna'];
+        $carbcheckboxes = [];
+        foreach ($carboptions as $key => $label) {
+            $carbcheckboxes[] = $mform->createElement('advcheckbox', $key, '', $label, null, ['value' => $label]);
+        }
+        $mform->addGroup($carbcheckboxes, 'carb_sources', 'Karbonhidrat Kaynakları', '<br>', false);
+        $mform->addRule('carb_sources', 'En az bir karbonhidrat kaynağı seçmelisiniz.', 'required', null, 'client');
 
-        // Yağ kaynakları
-        $fatOptions = [
-            'Zeytinyağı' => 'Zeytinyağı',
-            'Avokado' => 'Avokado',
-            'Kuruyemişler' => 'Kuruyemişler',
-            'Tohumlar' => 'Tohumlar',
-            'Tereyağı' => 'Tereyağı',
-            'Hindistancevizi Yağı' => 'Hindistancevizi Yağı',
-            'Balık Yağı' => 'Balık Yağı'
-        ];
-        $mform->addElement('checkboxgroup', 'fat_sources', 'Yağ Kaynakları', $fatOptions);
-        $mform->addRule('fat_sources', 'En az bir yağ kaynağı seçiniz.', 'required', null, 'client');
+// === Yağ Kaynakları ===
+        $fatoptions = ['zeytinyagi' => 'Zeytinyağı', 'avokado' => 'Avokado', 'ceviz' => 'Ceviz', 'fistik' => 'Fıstık', 'badem' => 'Badem'];
+        $fatcheckboxes = [];
+        foreach ($fatoptions as $key => $label) {
+            $fatcheckboxes[] = $mform->createElement('advcheckbox', $key, '', $label, null, ['value' => $label]);
+        }
+        $mform->addGroup($fatcheckboxes, 'fat_sources', 'Yağ Kaynakları', '<br>', false);
+        $mform->addRule('fat_sources', 'En az bir yağ kaynağı seçmelisiniz.', 'required', null, 'client');
 
         $mform->addElement('submit', 'submitbutton', 'Diyet Listesi Oluştur');
     }
