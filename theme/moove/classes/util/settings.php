@@ -123,7 +123,6 @@ class settings {
     public function frontpage() {
         return array_merge(
             $this->frontpage_slideshow(),
-            $this->frontpage_marketingboxes(),
             $this->frontpage_numbers(),
             $this->faq()
         );
