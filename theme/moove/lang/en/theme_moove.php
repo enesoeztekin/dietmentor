@@ -115,7 +115,7 @@ $string['numbersfrontpagecontentdefault'] = '<h2>Trusted by 25,000+ happy custom
 $string['numbersusers'] = 'Active users accessing our amazing resources';
 $string['numberscourses'] = 'Courses made for you that you can trust!';
 
-$string['faq'] = 'FAQ';
+$string['faq'] = 'Sıkça Sorulan Sorular';
 $string['faqcount'] = 'FAQ questions';
 $string['faqcountdesc'] = 'Select how many questions you want to add <strong>then click SAVE</strong> to load the input fields.<br>If you don\'t want a FAQ, just select 0.';
 $string['faqquestion'] = 'FAQ question {$a}';
