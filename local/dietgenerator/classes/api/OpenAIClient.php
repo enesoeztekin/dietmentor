@@ -10,11 +10,11 @@ class OpenAIClient {
         }
 
         $postdata = [
-            'model' => 'gpt-3.5-turbo',
+            'model' => 'gpt-4.1-mini',
             'messages' => [
                 ['role' => 'user', 'content' => $prompt]
             ],
-            'temperature' => 0.7
+            'temperature' => 0.3
         ];
 
         $ch = curl_init('https://api.openai.com/v1/chat/completions');
