@@ -21,9 +21,9 @@ if ($form->is_cancelled()) {
     redirect(new moodle_url('/'));
 } else if ($data = $form->get_data()) {
     $client = new \local_dietgenerator\api\OpenAIClient();
-    $protein_sources = implode(', ', $data->protein_sources);
-    $carb_sources = implode(', ', $data->carb_sources);
-    $fat_sources = implode(', ', $data->fat_sources);
+    $protein_sources = array_values((array) array_filter($data->protein_sources));
+    $carb_sources = array_values((array) array_filter($data->carb_sources));
+    $fat_sources = array_values((array) array_filter($data->fat_sources));
 
     $prompt = "Kullanıcının yaşı: {$data->age}, cinsiyeti: {$data->gender}, boyu: {$data->height} cm, kilosu: {$data->weight} kg. Bu bilgilere sahip bir bireyin günlük makro ihtiyacına göre 7 günlük detaylı bir diyet listesi hazırla. Her gün için sabah kahvaltısı, öğle ve akşam yemeği olacak şekilde belirt. Her besinin gramajını veya adetini belirt. Bu diyet listesi sadece {$protein_sources} protein kaynaklarını, {$carb_sources} karbonhidrat kaynaklarını ve {$fat_sources} yağ kaynaklarını içersin. Format:\n\nGün 1:\nSabah: ...\nÖğle: ...\nAkşam: ...\n\nGün 2:\n... (böyle devam et)";
 
